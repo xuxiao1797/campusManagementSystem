@@ -13,7 +13,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/campus_management_system?characterEncoding=utf-8&serverTimezone=GMT%2B8&userSSL=false
     username: root
-    password: 010215
+    password: "010215"
     #mybatis-plus?????
     hikari:
       connection-test-query: SELECT 1

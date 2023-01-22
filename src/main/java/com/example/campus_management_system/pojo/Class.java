@@ -16,9 +16,9 @@ public class Class {
     private Integer id;
     private String name;
     private Integer number;
-    private String introduction;
+    private String introducation;
     private String headmaster;
     private String email;
     private String telephone;
-    private String grade_name;
+    private String gradeName;
 }

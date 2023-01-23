@@ -4,6 +4,12 @@
 # 运行环境：
 jdk1.8 端口号9001，连接本地数据库运行
 
+# 功能实现:
+1.针对不同角色的登录，以及不同角色对应的不同权限\
+2.学生，班级，老师等数据管理（增删改查）\
+3.个人信息修改\
+![1674501355027](https://user-images.githubusercontent.com/90182797/214129668-1c41a70c-e544-4938-973b-4ed965bb5a30.png)
+
 # 接口文档：
 访问 localhost:9001/swagger-ui.html
 ![1674500451014](https://user-images.githubusercontent.com/90182797/214127494-209a9410-a566-449c-965d-376f95b5293f.png)

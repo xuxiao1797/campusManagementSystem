@@ -1,5 +1,6 @@
 package com.example.campus_management_system.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.campus_management_system.pojo.Admin;
 import com.example.campus_management_system.pojo.LoginForm;
 import com.example.campus_management_system.pojo.Student;
@@ -7,10 +8,7 @@ import com.example.campus_management_system.pojo.Teacher;
 import com.example.campus_management_system.service.AdminService;
 import com.example.campus_management_system.service.StudentService;
 import com.example.campus_management_system.service.TeacherService;
-import com.example.campus_management_system.util.CreateVerifiCodeImage;
-import com.example.campus_management_system.util.JwtHelper;
-import com.example.campus_management_system.util.Result;
-import com.example.campus_management_system.util.ResultCodeEnum;
+import com.example.campus_management_system.util.*;
 import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -182,6 +180,66 @@ public class SystemController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @ApiOperation("修改密码")
+    @PostMapping("/updatePwd/{oldPwd}/{newPwd}")
+    public Result updatePwd(
+           @ApiParam("token") @RequestHeader("token") String token,
+           @ApiParam("旧密码") @PathVariable("oldPwd") String oldPwd,
+           @ApiParam("新密码") @PathVariable("newPwd") String newPwd
+    ){
+        boolean expiration =  JwtHelper.isExpiration(token);
+        if(expiration){
+            return Result.fail().message("登录状态失效，请重新登录");
+        }
+        Long userId = JwtHelper.getUserId(token);
+        Integer userType =  JwtHelper.getUserType(token);
+        oldPwd = MD5.encrypt(oldPwd);
+        newPwd = MD5.encrypt(newPwd);
+
+        switch (userType){
+            case 1:
+                QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("id",userId.intValue());
+                queryWrapper.eq("password",oldPwd);
+                Admin admin =  adminService.getOne(queryWrapper);
+                if(admin != null){
+                    admin.setPassword(newPwd);
+                    adminService.saveOrUpdate(admin);
+                }else {
+                    return Result.fail().message("原密码有误");
+                }
+                break;
+            case 2:
+                QueryWrapper<Student> queryWrapper2 = new QueryWrapper<>();
+                queryWrapper2.eq("id",userId.intValue());
+                queryWrapper2.eq("password",oldPwd);
+                Student student =  studentService.getOne(queryWrapper2);
+                if(student != null){
+                    student.setPassword(newPwd);
+                    studentService.saveOrUpdate(student);
+                }else {
+                    return Result.fail().message("原密码有误");
+                }
+                break;
+            case 3:
+                QueryWrapper<Teacher> queryWrapper3 = new QueryWrapper<>();
+                queryWrapper3.eq("id",userId.intValue());
+                queryWrapper3.eq("password",oldPwd);
+                Teacher teacher =  teacherService.getOne(queryWrapper3);
+                if(teacher != null){
+                    teacher.setPassword(newPwd);
+                    teacherService.saveOrUpdate(teacher);
+                }else {
+                    return Result.fail().message("原密码有误");
+                }
+                break;
+
+        }
+
+        return Result.ok();
 
     }
 

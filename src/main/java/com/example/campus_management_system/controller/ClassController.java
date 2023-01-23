@@ -19,6 +19,14 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
+
+    @ApiOperation("查询所有班级信息")
+    @GetMapping("/getClazzs")
+    public Result getClazzs(){
+        List<Class> classes =  classService.getClazzs();
+        return Result.ok(classes);
+    }
+
     @GetMapping("/getClazzsByOpr/{pageNo}/{pageSize}")
     public Result getClazzByOpr(
           @ApiParam("分页查询页码数") @PathVariable("pageNo") Integer pageNo,

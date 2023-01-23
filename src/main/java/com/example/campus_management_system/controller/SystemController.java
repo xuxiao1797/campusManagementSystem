@@ -12,8 +12,12 @@ import com.example.campus_management_system.util.JwtHelper;
 import com.example.campus_management_system.util.Result;
 import com.example.campus_management_system.util.ResultCodeEnum;
 import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -21,10 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/sms/system")
@@ -36,6 +42,32 @@ public class SystemController {
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
+
+    @ApiOperation("文件上传统一入口")
+    @PostMapping("/headerImgUpload")
+    public Result headerImgUpload(
+            @ApiParam("需要上传的文件") @RequestParam("multipartFile") MultipartFile multipartFile,
+            HttpServletRequest request
+    ){
+        String uuid = UUID.randomUUID().toString().replace("-","").toLowerCase();
+        //保存文件 响应图片的路径
+        String originalFileName =  multipartFile.getOriginalFilename();
+        int i = originalFileName.lastIndexOf(".");
+        String newFileName =  uuid.concat(originalFileName.substring(i));
+
+        request.getServletContext().getRealPath("public/upload/");
+
+        String portraitPath = "D:/utilitySoftware/Project/campus_management_system/target/classes/public/upload/".concat(newFileName);
+
+        try {
+            multipartFile.transferTo(new File(portraitPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String path = "upload/".concat(newFileName);
+        return Result.ok(path);
+    }
 
     @GetMapping("/getInfo")
     public Result getInfoByToken(@RequestHeader("token") String token){

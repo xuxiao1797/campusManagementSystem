@@ -6,5 +6,5 @@
 ![1674500451014](https://user-images.githubusercontent.com/90182797/214127494-209a9410-a566-449c-965d-376f95b5293f.png)
 
 # 问题汇总
-[点击查看文档](https://)
+[点击查看文档](https://github.com/xuxiao1797/campus_management_system/blob/main/%E6%A0%A1%E5%9B%AD%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB.pdf)
 

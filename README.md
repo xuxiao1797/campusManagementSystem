@@ -4,7 +4,8 @@
 ## 运行环境：
 jdk1.8 端口号9001，连接本地数据库运行\
 [点击查看](https://github.com/xuxiao1797/campusManagementSystem/blob/main/campus_management_system.sql) 数据库脚本\
-注：密码经过MD5加密，Admin密码为admin，其余密码均为123456
+注：密码经过MD5加密，Admin密码为admin，其余密码均为123456\
+运行后需在application.yml文件中修改数据库路径，名称和密码即可本地运行。
 
 ## 功能实现：
 1.针对不同角色的登录，以及不同角色对应的不同权限\
